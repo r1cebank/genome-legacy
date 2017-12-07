@@ -1,0 +1,22 @@
+{
+    "root": true,
+    "extends": "r1cebank",
+    "parserOptions": {
+      "ecmaVersion": 7
+    },
+    "rules": {
+       "no-return-assign": "off",
+       "no-loop-func": "off",
+       "arrow-body-style": "off",
+       "array-callback-return": "off",
+       "space-before-function-paren": ["error", "always"],
+       "dot-notation": "warn",
+       "indent": [
+          "error",
+          4,
+          {
+             "SwitchCase": 1
+          }
+       ]
+    }
+  }

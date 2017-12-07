@@ -1,0 +1,25 @@
+{
+  "name": "genome",
+  "version": "1.0.0",
+  "description": "Just some useless random stuff, nothing interesting to see here",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/r1cebank/genome.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/r1cebank/genome/issues"
+  },
+  "homepage": "https://github.com/r1cebank/genome#readme",
+  "devDependencies": {
+    "eslint-config-r1cebank": "0.0.6"
+  },
+  "dependencies": {
+    "lodash": "^4.17.4"
+  }
+}
