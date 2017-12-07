@@ -14,6 +14,7 @@ class Gene {
         this.B = splitted[1]; // Data value
         this.C = splitted[2]; // Data value
         this.I = splitted[3]; // Influence value
+        this.mutated = 0; // Time mutated
     }
     /**
      * Mutate this gene
@@ -51,6 +52,7 @@ class Gene {
             }
             default:
         }
+        this.mutated++;
     }
 }
 
