@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const crypto = require('crypto');
 
 class Gene {
     /**
@@ -9,12 +10,39 @@ class Gene {
         if (gene.length !== 8) {
             throw new Error(`Expected gene size of 8, but got ${gene.length}`);
         }
+        if (isNaN(parseInt(gene, 16))) {
+            throw new Error('Gene format incorrect, should be a hex string.');
+        }
         const splitted = gene.match(/.{1,2}/g);
         this.A = splitted[0]; // Data value
         this.B = splitted[1]; // Data value
         this.C = splitted[2]; // Data value
         this.I = splitted[3]; // Influence value
         this.mutated = 0; // Time mutated
+    }
+    /**
+     * Get value for A marker
+     */
+    rawA () {
+        return parseInt(this.A, 16);
+    }
+    /**
+     * Get value for B marker
+     */
+    rawB () {
+        return parseInt(this.B, 16);
+    }
+    /**
+     * Get value for C marker
+     */
+    rawC () {
+        return parseInt(this.C, 16);
+    }
+    /**
+     * Get value for influence marker
+     */
+    influence () {
+        return parseInt(this.I, 16);
     }
     /**
      * Mutate this gene
@@ -26,8 +54,9 @@ class Gene {
          * 1 - reversal (reverse)
          * 2 - duplication
          * 3 - shift
+         * 4 - new value
          */
-        const mutateType = _.random(0, 3);
+        const mutateType = _.random(0, 4);
         const affectedMarker = _.sample([ 'A', 'B', 'C', 'I' ]);
         const affectedMarkers = _.sampleSize([ 'A', 'B', 'C', 'I' ], 2);
 
@@ -50,6 +79,9 @@ class Gene {
                 this.I = shiftedMarkers[3];
                 break;
             }
+            case 4:
+                this[affectedMarker] = crypto.randomBytes(1).toString('hex');
+                break;
             default:
         }
         this.mutated++;
