@@ -3,8 +3,8 @@ const crypto = require('crypto');
 
 const Gene = require('./gene');
 
-const GENOME_SIZE = 4; // Number of genes we are generating
-const MUTATE_RATE = 0.00001; // Rate of mutation occur
+const GENOME_SIZE = 16; // Number of genes we are generating
+const MUTATION_RATE = 0.01; // Rate of mutation occur
 
 class Genome {
     /**
@@ -19,10 +19,7 @@ class Genome {
             this.genePool = crypto
                 .randomBytes(GENOME_SIZE * 8)
                 .toString('hex')
-                .match(/.{1,8}/g)
-                .map((gene) => {
-                    return new Gene(gene);
-                });
+                .match(/.{1,8}/g);
             this.genes = _.sampleSize(this.genePool, GENOME_SIZE);
         }
     }
@@ -34,7 +31,7 @@ class Genome {
         if (geneNumber >= this.genes.length) {
             throw new Error('Gene does not exist');
         }
-        return this.genes[geneNumber];
+        return new Gene(this.genes[geneNumber]);
     }
     /**
      * Merge genome to a new set of genes
@@ -45,20 +42,51 @@ class Genome {
             throw new Error('Genome size mismatch');
         }
         const newGenePool = genome.genes.concat(this.genes);
-        const mutationP = parseInt(1 / MUTATE_RATE, 10);
+        const mutationP = parseInt(1 / MUTATION_RATE, 10);
         const newGenes = _.range(this.genes.length).map((i) => {
             if (_.random(0, 1)) {
                 if (_.random(0, mutationP) === mutationP) {
-                    genome.genes[i].mutate();
+                    const gene = new Gene(genome.genes[i]);
+                    gene.mutate();
+                    return gene.getStrGene();
                 }
                 return genome.genes[i];
             }
             if (_.random(0, mutationP) === mutationP) {
-                this.genes[i].mutate();
+                const gene = new Gene(this.genes[i]);
+                gene.mutate();
+                return gene.getStrGene();
             }
             return this.genes[i];
         });
         return new Genome(newGenePool, newGenes);
+    }
+    /**
+     * If the genome exist a gene or a similar mutation of that gene
+     * @param {string} gene
+     */
+    existGene (gene) {
+        return !!this.genes.find((g) => {
+            return Gene.compare(new Gene(g), new Gene(gene));
+        });
+    }
+    /**
+     * Can this genome produced a genome
+     * @param {Genome} genome
+     */
+    isParent (genome) {
+        /**
+         * How can we tell if current genome is the parent of the supplied genome?
+         * 1. Check genepool, should include half of the current genome
+         */
+        const genePoolPortion = genome.genePool.reduce((acc, gene) => {
+            if (this.genes.includes(gene)) {
+                return acc + 1;
+            }
+            return acc;
+        }, 0) / genome.genePool.length;
+        if (genePoolPortion === 0.5) { return true; }
+        return false;
     }
 }
 

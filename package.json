@@ -4,7 +4,7 @@
   "description": "Just some useless random stuff, nothing interesting to see here",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -17,9 +17,14 @@
   },
   "homepage": "https://github.com/r1cebank/genome#readme",
   "devDependencies": {
-    "eslint-config-r1cebank": "0.0.6"
+    "eslint-config-r1cebank": "0.0.6",
+    "jest": "^21.2.1"
+  },
+  "jest": {
+    "verbose": true
   },
   "dependencies": {
+    "fast-levenshtein": "^2.0.6",
     "lodash": "^4.17.4"
   }
 }

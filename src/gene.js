@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const crypto = require('crypto');
+const fastLevenshtein = require('fast-levenshtein');
 
 class Gene {
     /**
@@ -85,6 +86,33 @@ class Gene {
             default:
         }
         this.mutated++;
+    }
+    /**
+     * Convert to string representation, include mutation counter
+     * @returns {string}
+     */
+    toString () {
+        return `${this.A}${this.B}${this.C}${this.I}-${this.mutated}`;
+    }
+    /**
+     * Convert to string representation, without mutation counter
+     * @returns {string}
+     */
+    getStrGene () {
+        return `${this.A}${this.B}${this.C}${this.I}`;
+    }
+    /**
+     * Compare this gene with another gene for similarity
+     * @param {Gene} geneL
+     * @param {Gene} geneR
+     * @returns {boolean}
+     */
+    static compare (geneL, geneR) {
+        const distance = fastLevenshtein.get(geneL.getStrGene(), geneR.getStrGene());
+        if (distance <= 2) {
+            return true;
+        }
+        return false;
     }
 }
 
