@@ -27,11 +27,21 @@ const genome3 = new Genome();
 
 const child = genome.mergeGenome(genome2);
 
-console.log(child.genes);
+console.log(child);
 
-console.log(genome.isParent(child));
-console.log(genome2.isParent(child));
-console.log(genome3.isParent(child));
+// const num = 100;
+
+// for (let i = 0; i < num; i++) {
+//     const genome = new Genome();
+//     const genome2 = new Genome();
+//     const child = genome.mergeGenome(genome2);
+//     const percent = genome.isParent(child);
+//     console.log(percent);
+// }
+
+// console.log(genome.isParent(child));
+// console.log(genome2.isParent(child));
+// console.log(genome3.isParent(child));
 
 // console.log(JSON.stringify(genome));
 

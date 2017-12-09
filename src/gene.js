@@ -109,6 +109,8 @@ class Gene {
      */
     static compare (geneL, geneR) {
         const distance = fastLevenshtein.get(geneL.getStrGene(), geneR.getStrGene());
+
+        // Allow one marker to be different
         if (distance <= 2) {
             return true;
         }
