@@ -48,39 +48,39 @@ class Gene {
     /**
      * Mutate this gene
      */
-    mutate () {
+    mutate (type, marker, markers) {
         /**
          * Mutation type
-         * 0 - delete (set to zero)
-         * 1 - reversal (reverse)
-         * 2 - duplication
-         * 3 - shift
-         * 4 - new value
+         * 1 - delete (set to zero)
+         * 2 - reversal (reverse)
+         * 3 - duplication
+         * 4 - shift
+         * 5 - new value
          */
-        const mutateType = _.random(0, 4);
-        const affectedMarker = _.sample([ 'A', 'B', 'C', 'I' ]);
-        const affectedMarkers = _.sampleSize([ 'A', 'B', 'C', 'I' ], 2);
+        const mutateType = type || _.random(1, 5);
+        const affectedMarker = marker || _.sample([ 'A', 'B', 'C', 'I' ]);
+        const affectedMarkers = markers || _.sampleSize([ 'A', 'B', 'C', 'I' ], 2);
 
         switch (mutateType) {
-            case 0:
+            case 1:
                 this[affectedMarker] = '00';
                 break;
-            case 1:
+            case 2:
                 this[affectedMarker] = this[affectedMarker].split('').reverse().join('');
                 break;
-            case 2:
+            case 3:
                 this[affectedMarkers[0]] = this[affectedMarkers[1]];
                 break;
-            case 3: {
-                const markers = [ this.A, this.B, this.C, this.I ];
-                const shiftedMarkers = _.sampleSize(markers, 4);
+            case 4: {
+                const newMarkers = [ this.A, this.B, this.C, this.I ];
+                const shiftedMarkers = _.sampleSize(newMarkers, 4);
                 this.A = shiftedMarkers[0];
                 this.B = shiftedMarkers[1];
                 this.C = shiftedMarkers[2];
                 this.I = shiftedMarkers[3];
                 break;
             }
-            case 4:
+            case 5:
                 this[affectedMarker] = crypto.randomBytes(1).toString('hex');
                 break;
             default:

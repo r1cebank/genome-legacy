@@ -11,16 +11,16 @@ class Genome {
     /**
      * Create a new genome
      */
-    constructor (genes) {
+    constructor (genes, size) {
         this.mutations = [];
         if (genes) {
             this.genes = genes;
         } else {
             // Times 4 because each of our gene is 4 bytes, times 2 to create a pool to choose from
             this.genes = _.sampleSize(crypto
-                .randomBytes(GENOME_SIZE * 8)
+                .randomBytes((size || GENOME_SIZE) * 8)
                 .toString('hex')
-                .match(/.{1,8}/g), GENOME_SIZE);
+                .match(/.{1,8}/g), size || GENOME_SIZE);
         }
     }
     /**
@@ -71,7 +71,7 @@ class Genome {
      */
     existGene (gene) {
         return !!this.genes.find((g) => {
-            return Gene.compare(new Gene(g), new Gene(gene));
+            return Gene.compare(new Gene(g), gene);
         });
     }
     /**
@@ -80,7 +80,7 @@ class Genome {
      */
     isParent (genome) {
         const genePortion = genome.genes.reduce((acc, gene) => {
-            if (this.existGene(gene)) {
+            if (this.existGene(new Gene(gene))) {
                 return acc + 1;
             }
             return acc;
