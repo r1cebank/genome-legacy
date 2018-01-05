@@ -21,7 +21,14 @@
     "jest": "^21.2.1"
   },
   "jest": {
-    "verbose": true
+    "verbose": true,
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.{js}",
+      "!index.js",
+      "!**/node_modules/**",
+      "!**/coverage/**"
+    ]
   },
   "dependencies": {
     "fast-levenshtein": "^2.0.6",

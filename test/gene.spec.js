@@ -39,6 +39,13 @@ test('should mutate zero marker', () => {
     expect(newGene.influence()).toEqual(0);
 });
 
+test('should not mutate if type incorrect', () => {
+    const newGene = new gene('01020304');
+    const originalGene = newGene.toString();
+    newGene.mutate(10, 'I', [ 'A', 'B' ]);
+    expect(newGene.toString()).toEqual(originalGene);
+});
+
 test('should mutate reverse marker', () => {
     const newGene = new gene('01020304');
     newGene.mutate(2, 'I');

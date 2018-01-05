@@ -84,6 +84,7 @@ class Gene {
                 this[affectedMarker] = crypto.randomBytes(1).toString('hex');
                 break;
             default:
+                this.mutated--;
         }
         this.mutated++;
     }
